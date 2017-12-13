@@ -1,8 +1,10 @@
+// Globals
 var request = require('request');
 request = request.defaults({jar: true});
 var cheerio = require('cheerio');
 const express = require('express');
 const app = express();
+const path = require('path');
 const pRequest = require("promisified-request").create(request);
 const fScraper = require("form-scraper");
 
@@ -10,16 +12,19 @@ const fScraper = require("form-scraper");
 const WEBFORM = fScraper.fetchForm("#searchform", "https://en.wikipedia.org/wiki/Main_Page", pRequest);
 
 
+/* SERVER START */
 
-// SERVER START
-app.get('/', (req, res) => res.send('home'))
+// Server options
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Catches and handles brower request for favicon.ico
-app.get('/favicon.ico', function(req, res) {
+// Routing
+app.get('/', (req, res) => res.sendFile(path.join(__dirname + '/index.html')));
+
+app.get('/favicon.ico', function(req, res) {  // Catches and handles brower request for favicon.ico
     res.status(204);
 });
 
-app.get('/:searchTerms', function(req, res) {
+app.get('/:searchTerms', function(req, res) {  // Button click on home page
 
     // Crawl the search form on the page
     console.log(req.params);
@@ -50,4 +55,4 @@ app.get('/:searchTerms', function(req, res) {
 
 app.listen(3000, () => console.log('App listening on port 3000.'));
 
-// SERVER END
+/* SERVER END */
