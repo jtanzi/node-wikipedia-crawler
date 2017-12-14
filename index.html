@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="main.js"></script>
 </head>
 <body>
     <div id="heading-section">
@@ -10,13 +10,17 @@
         <p>Who needs the MediaWiki API anyway?</p>
     </div>
     <div id="search-section">
-        <form action="" id="search-form">
-            <input id="search-box" type="text" name="search" placeholder="Search..">
-            <button id="search-submit" onclick=""></button>
-        </form>
+        <input id="search-box" type="text" name="search" placeholder="Search..">
+        <button id="search-submit" onclick="crawl()">Send</button>
+    </div>
+    <div id="instructions">
+        <p>Enter keywords to use to search Wikipedia, and use the links the appear below to go directly to the article you want.</p>
     </div>
     <div id="results-section">
-        <!-- dynamic -->
+        <!-- no-results-text will go here -->
+        <ul id="results-list"><!-- dynamic --></ul>
     </div>
+
+    <script src="main.js"></script>
 </body>
 </html>

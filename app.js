@@ -22,36 +22,34 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname + '/index.html')));
 
 app.get('/favicon.ico', function(req, res) {  // Catches and handles brower request for favicon.ico
     res.status(204);
+    res.send("No favicon for you!");
 });
 
 app.get('/:searchTerms', function(req, res) {  // Button click on home page
 
     // Crawl the search form on the page
-    console.log(req.params);
     var formDetails = { search: req.params.searchTerms };
+    var responseArr = [];
 
-    fScraper.submitForm(formDetails, fScraper.provideForm(WEBFORM), pRequest).then( function (response) {
-        // console.log(response.body);
+    fScraper.submitForm(formDetails, fScraper.provideForm(WEBFORM), pRequest).then( function (response) { 
+
         var $ = cheerio.load(response.body);
-
-        var responseArr = [];
 
         // Start parsing out DOM elements and formatting them into the JSON array (responseArr)
         $('.mw-search-result-heading a').filter(function() {
             var json = { heading: "", link: "" };
             var data = $(this);
-            console.log(data.attr('title'));
+
             json.heading = data.attr('title');
             json.link = data.attr('href');
             responseArr.push(json);
         });
 
-        console.log(responseArr);
-        res.send(response.body);
+        res.send(responseArr);
+
     });
+
 });
-
-
 
 app.listen(3000, () => console.log('App listening on port 3000.'));
 
